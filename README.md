@@ -1,8 +1,9 @@
 # pitest-helper
 
 ![Build](https://github.com/carmeloquilez/pitest-helper/actions/workflows/build.yml/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/23649-pitest-helper)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/23649-pitest-helper)
+![Version](https://img.shields.io/jetbrains/plugin/v/23649-pitest-helper)
+![Rating](https://img.shields.io/jetbrains/plugin/r/rating/23649-pitest-helper)
+![Downloads](https://img.shields.io/jetbrains/plugin/d/23649-pitest-helper)
 
 ## PITest Helper
 
