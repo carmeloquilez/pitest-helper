@@ -3,6 +3,8 @@
 annotations = "24.1.0"
 junitJupiter = "5.10.0"
 hamcrest = "2.2"
+kotlinTest = "1.8.10"
+mockk = "1.13.9"
 
 # plugins
 kotlin = "1.9.21"
@@ -16,6 +18,8 @@ annotations = { group = "org.jetbrains", name = "annotations", version.ref = "an
 junitJupiterApi = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junitJupiter" }
 junitJupiterEngine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junitJupiter" }
 hamcrest = { group = "org.hamcrest", name = "hamcrest", version.ref = "hamcrest" }
+kotlinTest = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlinTest" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 [plugins]
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }

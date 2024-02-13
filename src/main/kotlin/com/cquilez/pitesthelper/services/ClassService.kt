@@ -1,9 +1,11 @@
 package com.cquilez.pitesthelper.services
 
 import com.cquilez.pitesthelper.exception.PitestHelperException
+import com.intellij.openapi.components.Service
 import com.intellij.psi.*
 
-object ClassService {
+@Service(Service.Level.PROJECT)
+class ClassService {
     fun getPublicClass(psiFile: PsiFile): PsiClass {
         if (psiFile is PsiJavaFile) {
             val psiClasses: Array<PsiClass> = psiFile.classes

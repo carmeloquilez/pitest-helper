@@ -26,6 +26,8 @@ dependencies {
     testImplementation(libs.junitJupiterApi)
     testImplementation(libs.hamcrest)
     testRuntimeOnly(libs.junitJupiterEngine)
+    testImplementation(libs.kotlinTest)
+    testImplementation(libs.mockk)
 }
 
 // Set the JVM language level used to build the project. Use Java 11 for 2020.3+, and Java 17 for 2022.2+.

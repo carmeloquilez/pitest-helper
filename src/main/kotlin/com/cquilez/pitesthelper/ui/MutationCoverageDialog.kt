@@ -1,7 +1,6 @@
 package com.cquilez.pitesthelper.ui
 
 import com.cquilez.pitesthelper.model.MutationCoverageData
-import com.cquilez.pitesthelper.services.MavenService
 import com.intellij.openapi.observable.util.whenTextChanged
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.components.JBLabel
@@ -18,7 +17,7 @@ import javax.swing.JComponent
 import javax.swing.JPanel
 import javax.swing.ScrollPaneConstants
 
-class MutationCoverageDialog(private val mutationCoverageData: MutationCoverageData) : DialogWrapper(true) {
+class MutationCoverageDialog(private val mutationCoverageData: MutationCoverageData, private val commandBuilder: java.util.function.Function<MutationCoverageData, String>) : DialogWrapper(true) {
     private val tfTargetClasses = JBTextField()
     private val tfTargetTests = JBTextField()
     private val commandTextArea = JBTextArea(5, 30)
@@ -47,7 +46,7 @@ class MutationCoverageDialog(private val mutationCoverageData: MutationCoverageD
     private fun setupUiComponents() {
         tfTargetClasses.text = mutationCoverageData.targetClasses.joinToString(",")
         tfTargetTests.text = mutationCoverageData.targetTests.joinToString(",")
-        buildMavenCommand()
+        buildCommand()
     }
 
     private fun centerDialog() {
@@ -74,8 +73,8 @@ class MutationCoverageDialog(private val mutationCoverageData: MutationCoverageD
         scrollPane.verticalScrollBarPolicy = ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS
         addRow(panel, "Maven command", scrollPane, gbConstraints, 1.0, GridBagConstraints.BOTH)
 
-        tfTargetClasses.whenTextChanged { buildMavenCommand() }
-        tfTargetTests.whenTextChanged { buildMavenCommand() }
+        tfTargetClasses.whenTextChanged { buildCommand() }
+        tfTargetTests.whenTextChanged { buildCommand() }
 
         return panel
     }
@@ -119,12 +118,7 @@ class MutationCoverageDialog(private val mutationCoverageData: MutationCoverageD
         return actions
     }
 
-    private fun buildMavenCommand() {
-        commandTextArea.text = "mvn test-compile pitest:mutationCoverage ${
-            MavenService.buildPitestArgs(
-                tfTargetClasses.text,
-                tfTargetTests.text
-            )
-        }"
+    private fun buildCommand() {
+        commandTextArea.text = commandBuilder.apply(mutationCoverageData)
     }
 }

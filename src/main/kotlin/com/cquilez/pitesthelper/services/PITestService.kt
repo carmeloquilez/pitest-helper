@@ -27,7 +27,7 @@ object PITestService {
     /**
      * Collects target packages and classes in a List
      */
-    private fun collectTargetCode(
+    fun collectTargetCode(
         codeItemList: List<CodeItem>
     ): List<String> {
         val targetClassesList = mutableListOf<String>()

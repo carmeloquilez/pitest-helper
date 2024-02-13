@@ -1,6 +1,6 @@
 package com.cquilez.pitesthelper.common
 
-import com.cquilez.pitesthelper.services.ClassService
+import com.cquilez.pitesthelper.exception.PitestHelperException
 import com.intellij.ide.projectView.impl.nodes.ClassTreeNode
 import com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -12,9 +12,7 @@ import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.roots.impl.ModifiableModelCommitter
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.pom.Navigatable
-import com.intellij.psi.PsiDirectory
-import com.intellij.psi.PsiFile
-import com.intellij.psi.PsiManager
+import com.intellij.psi.*
 import com.intellij.testFramework.builders.JavaModuleFixtureBuilder
 import com.intellij.testFramework.fixtures.*
 import org.junit.jupiter.api.fail
@@ -72,12 +70,15 @@ class TestUtil {
             }
         }
 
-        fun findAndCreateClassTreeNode(fixture: JavaCodeInsightTestFixture, relativePath: String): ClassTreeNode {
-            val psiFile = fixture.configureFromTempProjectFile(relativePath)
-            return ClassTreeNode(fixture.project, ClassService.getPublicClass(psiFile), null)
+        private fun getPublicClass(psiFile: PsiFile): PsiClass {
+            if (psiFile is PsiJavaFile) {
+                val psiClasses: Array<PsiClass> = psiFile.classes
+                return psiClasses.first { service -> service.isPhysical }
+            }
+            throw PitestHelperException("Invalid class")
         }
 
-        fun newClassTreeNode(project: Project, psiFile: PsiFile) = ClassTreeNode(project, ClassService.getPublicClass(psiFile), null)
+        fun newClassTreeNode(project: Project, psiFile: PsiFile) = ClassTreeNode(project, getPublicClass(psiFile), null)
 
         fun findAndCreateDirectoryTreeNode(fixture: JavaCodeInsightTestFixture, relativePath: String): PsiDirectoryNode {
             val module = ModuleManager.getInstance(fixture.project).modules[0]

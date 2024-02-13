@@ -6,6 +6,7 @@ import com.cquilez.pitesthelper.common.TestUtil.Companion.createDataContext
 import com.cquilez.pitesthelper.common.TestUtil.Companion.findAndCreateDirectoryTreeNode
 import com.cquilez.pitesthelper.common.TestUtil.Companion.newClassTreeNode
 import com.cquilez.pitesthelper.model.MutationCoverageData
+import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.testFramework.TestActionEvent
@@ -45,9 +46,16 @@ class MutationCoverageSingleNodeTest {
     fun `If no classes or packages selected, action not visible`() {
         ApplicationManager.getApplication().runReadAction {
             val dataContext = DataContext {
-                return@DataContext null
-            }
+                when (it) {
+                    CommonDataKeys.PROJECT.name -> {
+                        return@DataContext fixture.project
+                    }
 
+                    else -> {
+                        return@DataContext null
+                    }
+                }
+            }
             val event = TestActionEvent(dataContext)
             val action = RunMutationCoverageAction()
 
